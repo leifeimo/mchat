@@ -1,0 +1,509 @@
+<style>
+
+.article_list_th p{
+    width: 20%  !important;
+}
+.article_list_th_ul span{
+  width:20% !important;
+}
+
+
+</style>
+<div class="r_title">
+                <p id="tap2" class="tap1">用户列表</p>
+                <p id="tap1" class="tap2">公告</p>
+                <p id="tap3" class="tap3"></p>
+            </div>
+            <div class="r_article" style="min-height: 550px;">
+            
+            
+                <div class="article_list">
+                    <div class="clearfix">
+                    <h4 class="article_list_title f_l fl-10" >信息总览：</h4>
+                    <p class="article_info_date fl-10 f_l" id="quality">已创建报告总量：0 | 剩余可用数量：0</p>
+                    <a class="ac-bind" href="javascript:;">快速绑定用户</a>
+                  </div>
+                    
+                  
+                   <div class="article_list_content">
+                    <table class="m-table" cellspacing="0" >
+                     <thead>
+                       <tr>
+                         <th>用户姓名</th>
+                         <th>身份编号</th>
+                         <th>登录账号</th>
+                         <th>查看与修改</th>
+                         <th>解除绑定</th>
+                       </tr>
+                     </thead>
+                     <tbody id="lists">
+                       
+                     </tbody>
+                   </table>
+                   </div>
+                   <div class="s_page m_top_30">
+                       <div class="s_page_num" id="page">
+                         
+                       </div>
+                   </div>
+                </div>
+
+            
+                <div class="article_info" style="display:none">
+                    <h4 id="title" class="article_info_title">发布公告的标题</h4>
+                    <p class="article_info_date">发布时间：<span id="time">2016-07-04 00:00:00</span></p>
+                    
+                   <div class="article_content" id="article">
+    
+                    </div>
+
+                </div> 
+                    
+
+                <div class="announcement">
+                    <div class="announcement_tip">
+                    <img src="../../images/announcement.png" />&nbsp;公告
+                    </div>
+                    <p class="announcement_more" style=""><a href="#list">MORE ></a>&nbsp;&nbsp;</p>
+                    
+                    <div class="announcement_line" style="margin:0 5px;clear:both"></div>
+                    
+                    <div id="gg">
+                      
+                    </div>
+                    
+                    
+                </div>   
+
+                
+                
+
+ 
+            </div>
+
+        <script>
+$(function(){ 
+    $("#tap2").click(function(){
+    $(this).removeClass("tap2");
+      $(this).addClass("tap1");
+    
+    $("#tap1").removeClass("tap1");
+    $("#tap1").addClass("tap2");
+    
+    $("#tap3").addClass("click_check");
+    
+    $(".article_info").hide();
+    $(".article_list").show();
+  });
+  
+    $("#tap1").click(function(){
+    
+    $(this).removeClass("tap2");
+    $(this).removeClass("tap1");
+    
+      $(this).addClass("tap1");
+     
+     
+    $("#tap2").removeClass("tap1");
+    $("#tap2").removeClass("tap2"); 
+    $("#tap2").addClass("tap2");  
+    
+    $("#tap3").removeClass("click_check");  
+
+        $(".article_list").hide();  
+    $(".article_info").show();
+      
+    //$("#tap2").addClass("click_no_check");
+  });
+}); 
+    </script>
+
+<script id="pop" type="text/html">
+  <ul class="pwd-change check-msg">
+    <li>
+      <span>用户姓名：</span>
+      <p id="username"></p>
+    </li>
+    <li>
+      <span>身份证号码：</span>
+      <p id="cardNo"></p>
+    </li>
+    <li>
+      <span>M-CHAT报告数量:</span>
+      <p id="zs"></p>
+    </li>
+    <li class="ac-hide">
+      <span>请输入新密码：</span>
+      <input id="newPwd" type="password" >
+    </li>
+    <li class="ac-hide">
+      <span>请再输入一次：</span>
+      <input id="rePwd" type="password" >
+    </li>
+    <li>
+      <span>请输入您的密码：</span>
+      <input id="Pwd" type="password" >
+    </li>
+  </ul>
+</script>
+
+<script id="bind" type="text/html">
+  <ul class="pwd-change check-msg">
+    <li>
+      <span>用户姓名：</span>
+      <input id="adName" type="text" >
+    </li>
+    <li>
+      <span>身份证号码：</span>
+      <input id="adCard" type="text" >
+    </li>
+    <!-- <li>
+      <span>证书编号:</span>
+      <input id="adNo" type="text" >
+    </li> -->
+    <li>
+      <span>请输入您的密码：</span>
+      <input id="adPwd" type="password" >
+    </li>
+  </ul>
+</script>
+
+<script id="ggList" type="text/html">
+{{if recordList && recordList.length}}
+  {{each recordList}}
+    <p><a class="ac-gg" data-id="{{$value.id}}" href="javascript:;">{{$index+1+'、'+$value.title}}</a></p>
+  {{/each}}
+{{else}}
+  <p>暂无公告信息！</p>
+{{/if}}
+</script>
+
+<script id="table" type="text/html" >
+{{if recordList && recordList.length}}
+  {{each recordList}}
+  <tr>
+     <td>
+       {{if $value.realName}}
+        {{$value.realName}}
+      {{else}}
+        --
+      {{/if}}
+     </td>
+     <td>
+      {{if $value.cardNo}}
+        {{'**************'+$value.cardNo.substr($value.cardNo.length-4,$value.cardNo.length)}}
+      {{else}}
+        --
+      {{/if}}
+     </td>
+     <td>{{$value.loginName}} </td>
+     <td><a data-medicNo="{{$value.medicNo}}" class="ac-check" href="javascript:;"><img src="../../images/looks.png" /></a></td>
+     <td><a data-medicNo="{{$value.medicNo}}" class="ac-delete" href="javascript:;"><img src="../../images/s_1.png" /></a></td>
+   </tr>
+  {{/each}}
+{{else}}
+  <li>没有查询到相关信息，请检查搜索条件！</li>
+{{/if}}
+</script>
+
+<script>
+  $(document).ready(function(){
+    var url = window.location.href;
+        if(url.indexOf('id=') > 0){
+            var article_id = url.split('id=').pop();
+            if(article_id){
+              getArticle(article_id);
+              $("#tap1").trigger('click');
+            }
+        }
+        var currentPage = 1;
+        var total = 0;
+        var obj = {
+          url: util.requestURL+'/web/v1/enterprise/listMedic',
+          type: 'POST',
+          data:{
+            pageNum: 1,
+            numPerPage: 10
+          },
+          success: function(data){
+            if(data.code == 1){
+              data.data.url = util.requestURL;
+              var html = template.render($("#table").text(), data.data);
+              $("#lists").html(html);
+              $("#page").pagination({
+                  totalData: data.data.totalCount,
+                  showData: 10,
+                  pageCount: 10,
+                  current: data.data.currentPage,
+                  coping: true,
+                  callback: function(api){
+                    util.pageClient(obj,api.getCurrent())
+                  }
+              })
+            }else{
+              layer.msg(data.msg);
+            }
+            
+
+          }
+        }
+        util.client(obj);
+        // 
+        
+        // $("body").delegate('.ac-download','click',function(){
+        //   var scoreNo = $(this).attr('data-scoreNo');
+        //   util.client({
+        //     url: util.requestURL+''
+        //   });
+        // });
+        
+        // 获取表信息
+        util.client({
+          url: util.requestURL+'/web/v1/enterprise/getEnterpriseScaleDosage',
+          success: function(data){
+            if(data.code == 1){
+              //console.log(data.data)
+              var html = '';
+              html += '已创建报告总量：'+data.data.consumption;
+              html += ' | '+'剩余剩余可用数量'+data.data.remainingAmount
+              $("#quality").html(html);  
+            }else{  
+              layer.msg(data.msg);
+            }
+          }
+        })
+
+        util.client({ // 获取文章列表
+          url: util.requestURL+'/web/v1/enterprise/listArticle',
+          type: 'POST',
+          data: {
+            pageNum: 1,
+            numPerPage: 6
+          },
+          success: function(data){
+            if(data.code == 1){
+              total = data.data.totalCount;
+              var html = template.render($("#ggList").text(), data.data);
+              $("#gg").html(html);
+              if(url.indexOf('id=') < 0){
+                getArticle(data.data.recordList[0].id);
+              }
+            }else{  
+              layer.msg(data.msg);
+            }
+          }
+        })
+
+        $("body").delegate('.ac-gg','click',function(){
+          var id = $(this).attr("data-id");
+          getArticle(id);
+          window.location.href = '#sys-index?id='+id;
+          $("#tap1").trigger('click');
+        });
+
+        $("body").delegate('.ac-check','click',function(){
+          var no = $(this).attr("data-medicNo");
+          util.client({
+            url: util.requestURL+'/web/v1/enterprise/getMedicInfoByMedicNo',
+            type: 'POST',
+            data:{
+              medicNo: no
+            },
+            success: function(data){
+              if(data.code == 1){
+                var data = data.data;
+                layer.open({
+                  title: '查看信息',
+                  content: $("#pop").html(),
+                  btn:['修改密码','取消'],
+                  type: 1,
+                  success: function(){
+                    $("#username").text(data.realName);
+                    $("#cardNo").text(data.cardNo);
+                    
+                    util.client({
+                      url: util.requestURL+'/web/v1/enterprise/getMedicScaleDosageByMedicNo',
+                      type: 'POST',
+                      data:{
+                        medicNo: no
+                      },
+                      success: function(data){
+                        var data = data.data;
+                        var num = 0;
+                        if(data.length == 0){
+                          num = 0;
+                        }else{
+                          num = data[0].consumption;
+                        }
+                        $("#zs").text(num);
+                      }
+                    })
+                  },
+                  yes: function(index){
+                    var newPwd = $("#newPwd").val();
+                    var rePwd = $("#rePwd").val();
+                    var Pwd = $("#Pwd").val();
+                    if(newPwd != rePwd){
+                      layer.msg("两次输入密码不一致！");
+                      return false;
+                    }
+                    util.client({
+                      url: util.requestURL+'/web/v1/enterprise/updateMedicLoginPwd',
+                      type: 'POST',
+                      data:{
+                        newPassword: newPwd,
+                        managerPwd: Pwd,
+                        medicNo: data.medicNo
+                      },
+                      success: function(resp){
+                        if(resp.code == 1){
+                          layer.close(index);
+                        }
+                        layer.msg(resp.msg);
+                      }
+                    })
+                    console.log(data)
+                  }
+                })
+              }else{
+                layer.msg(data.msg);
+              }
+            }
+          })
+        });
+
+        $("body").delegate('.ac-delete','click',function(){
+          var no = $(this).attr("data-medicNo");
+          util.client({
+            url: util.requestURL+'/web/v1/enterprise/getMedicInfoByMedicNo',
+            type: 'POST',
+            data:{
+              medicNo: no
+            },
+            success: function(data){
+              if(data.code == 1){
+                var data = data.data;
+                layer.open({
+                  title: '查看信息',
+                  content: $("#pop").html(),
+                  btn:['解除绑定','取消'],
+                  type: 1,
+                  success: function(){
+                    $("#username").text(data.realName);
+                    $("#cardNo").text(data.cardNo);
+                    $("#zs").text("--");
+                    $(".ac-hide").hide();
+                    util.client({
+                        url: util.requestURL+'/web/v1/enterprise/getMedicScaleDosageByMedicNo',
+                        type: 'POST',
+                        data:{
+                          medicNo: no
+                        },
+                        success: function(data){
+                          var data = data.data;
+                          var num = 0;
+                          if(data.length == 0){
+                            num = 0;
+                          }else{
+                            num = data[0].consumption;
+                          }
+                          $("#zs").text(num);
+                        }
+                      })
+                  },
+                  yes: function(index){
+                    var pwd = $("#Pwd").val();
+                    if(pwd == ''){
+                      layer.msg("请输入您的密码！");
+                      return false;
+                    }
+                    util.client({
+                      url: util.requestURL+'/web/v1/enterprise/dismissUser',
+                      type: 'POST',
+                      data: {
+                        managerPwd: pwd,
+                        medicNo: no
+                      },
+                      success: function(data){
+                        if(data.code == 1){
+                          layer.msg(data.msg);
+                          layer.close(index)
+                          util.pageClient(obj,util.currentPage);
+                        }else{
+                          layer.msg(data.msg);
+                        }
+                      }
+                    })
+                    console.log(data)
+                  }
+                })
+              }else{
+                layer.msg(data.msg);
+              }
+            }
+          })
+        });
+
+
+        $("body").delegate('.ac-bind', 'click', function(event) {
+          layer.open({
+            title: '绑定新用户',
+            content: $("#bind").html(),
+            btn: ['确定','取消'],
+            type: 1,
+            yes: function(index){
+              var name = $("#adName").val();
+              var card = $("#adCard").val();
+              //var no = $("#adNo").val();
+              var pwd = $("#adPwd").val();
+              if(name == "" || card == "" || pwd == ""){
+                layer.msg("填写参数不能为空！");
+                return false;
+              }
+              util.client({
+                url: util.requestURL+'/web/v1/enterprise/boundMedic',
+                type: 'POST',
+                data: {
+                  realName: name,
+                  cardNo: card,
+                  managerPwd: pwd,
+                  //scoreNo: no
+                },
+                success: function(data){
+                  layer.msg(data.msg);
+                  if(data.code == 1){
+                    util.pageClient(obj,1);
+                    layer.close(index);
+                  }
+
+                }
+              })
+            }
+          })
+        });
+
+        function getArticle(id){
+          util.client({
+          url: util.requestURL+'/web/v1/enterprise/getArticle',
+            data: {
+              id: id
+            },
+            success: function(data){
+              if(data.code == 1){
+                var data = data.data;
+                $("#title").text(data.title);
+                $("#article").html(data.content);
+                $("#time").text(util.getTimeFromNum(data.editTime,1));
+
+              }else{  
+                layer.msg(data.msg);
+              }
+            }
+          })
+        }
+
+        
+
+
+  });
+</script>

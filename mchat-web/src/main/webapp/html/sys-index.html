@@ -1,0 +1,280 @@
+<div class="r_title">
+                <p id="tap2" class="tap2">报告信息</p>
+                <p id="tap1" class="tap1">公告</p>
+               <!--  <p id="tap2" class="tap2">报告信息</p> -->
+                <p id="tap3" class="tap3"></p>
+            </div>
+            <div class="r_article" style="min-height: 600px;">
+            
+            
+                <div class="article_list" style="display:none">
+                  <div class="clearfix">
+                    <h4 class="article_list_title f_l fl-10" >信息总览：</h4>
+                    <p class="article_info_date fl-10 f_l" id="quality">已创建报告总量：0 | 剩余可用数量：0</p>
+                  </div>
+                    
+                    
+                   <div class="article_list_content">
+                    <table class="m-table" cellspacing="0" >
+                      <thead>
+                        <tr>
+                          <th>报告编号</th>
+                          <th>儿童姓名</th>
+                          <th>出生日期</th>
+                          <th>创建日期</th>
+                          <th>性别</th>
+                          <th>下载</th>
+                        </tr>
+                      </thead>
+                      <tbody id="lists">
+                        
+                      </tbody>
+                      
+                    </table>
+                   
+
+                   </div>
+                   <div class="s_page m_top_10">
+                       <div class="s_page_num" id="page">
+                         
+                       </div>
+                   </div>
+                </div>
+
+            
+                <div class="article_info" style="display:none">
+                    <h4 id="title" class="article_info_title">发布公告的标题</h4>
+                    <p class="article_info_date">发布时间：<span id="time">2016-07-04 00:00:00</span></p>
+                    
+                   <div class="article_content" id="article">
+    
+                    </div>
+
+                </div> 
+                    
+
+                <div class="announcement">
+                    <div class="announcement_tip">
+                    <img src="../images/announcement.png" />&nbsp;公告
+                    </div>
+                    <p class="announcement_more" style=""><a href="#list">MORE ></a>&nbsp;&nbsp;</p>
+                    
+                    <div class="announcement_line" style="margin:0 5px;clear:both"></div>
+                    
+                    <div id="gg">
+                      
+                    </div>
+                    
+                    
+                </div>   
+                
+
+ 
+            </div>
+
+        <script>
+$(function(){ 
+    $("#tap2").click(function(){
+      $(this).removeClass("tap2");
+      $(this).addClass("tap1");
+      
+      $("#tap1").removeClass("tap1");
+      $("#tap1").addClass("tap2");
+      
+      //$("#tap3").addClass("click_check");
+      
+      $(".article_info").hide();
+      $(".article_list").show();
+
+    //$("#tap2").trigger('click');
+  });
+
+  
+    $("#tap1").click(function(){
+    
+    $(this).removeClass("tap2");
+    $(this).removeClass("tap1");
+    
+      $(this).addClass("tap1");
+     
+     
+    $("#tap2").removeClass("tap1");
+    $("#tap2").removeClass("tap2"); 
+    $("#tap2").addClass("tap2");  
+    
+    //$("#tap3").removeClass("click_check");  
+
+    $(".article_list").hide();  
+    $(".article_info").show();
+      
+    //$("#tap2").addClass("click_no_check");
+  });
+    $("#tap2").trigger('click');
+}); 
+    </script>
+
+<script id="ggList" type="text/html">
+{{if recordList && recordList.length}}
+  {{each recordList}}
+    <p><a class="ac-gg" data-id="{{$value.id}}" href="javascript:;">{{$index+1+'、'+$value.title}}</a></p>
+  {{/each}}
+{{else}}
+  <p>暂无公告信息！</p>
+{{/if}}
+</script>
+
+<script id="table" type="text/html" >
+{{if recordList && recordList.length}}
+  {{each recordList}}
+  <tr>
+     <td>{{$value.reportNo}}</td>
+     <td>{{$value.testeeName}}</td>
+     <td>{{$value.birthYear+'-'+$value.birthMonth+'-'+$value.birthToday}}</td>
+     <td>{{$imports.getTimeFromNum($value.createTime)}}</td>
+     <td>{{['女','男'][$value.sex]}}</td>
+     <td><a target="_blank"  href="{{url+'/web/v1/medicMchat/downloadReport?scoreNo='+$value.scoreNo+'&medicNo='}}"><img src="../images/down1.png" /></a></td>
+   </tr>
+  {{/each}}
+{{else}}
+  <li>没有查询到相关信息，请检查搜索条件！</li>
+{{/if}}
+</script>
+
+<script>
+  $(document).ready(function(){
+        var url = window.location.href;
+        if(url.indexOf('id=') > 0){
+            var article_id = url.split('id=').pop();
+            if(article_id){
+              getArticle(article_id);
+              $("#tap1").trigger('click');
+            }
+        }
+        var currentPage = 1;
+        var total = 0;
+        var obj = {
+          url: util.requestURL+'/web/v1/medicMchat/listMchatScoreAndMchatScoreRevisedFollowListPage',
+          type: 'POST',
+          data:{
+            pageNum: 1,
+            numPerPage: 10
+          },
+          success: function(data){
+            if(data.code == 1){
+              data.data.url = util.requestURL;
+              var html = template.render($("#table").text(), data.data);
+              $("#lists").html(html);
+              $("#page").pagination({
+                  totalData: data.data.totalCount,
+                  showData: 10,
+                  pageCount: 10,
+                  current: data.data.currentPage,
+                  coping: true,
+                  callback: function(api){
+                    util.pageClient(obj,api.getCurrent())
+                  }
+              })
+            }else{
+              layer.msg(data.msg);
+            }
+            
+
+          }
+        }
+        util.client(obj);
+        // $("body").delegate('.ac-download','click',function(){
+        //   var scoreNo = $(this).attr('data-scoreNo');
+        //   util.client({
+        //     url: util.requestURL+''
+        //   });
+        // });
+        
+        // 获取报告信息
+        util.client({
+          url: util.requestURL+'/web/v1/medic/listMedicScaleDosage',
+          success: function(data){
+            if(data.code == 1){
+              //console.log(data.data)
+              var html = '';
+              data.data.map(function(val,i){
+                util.client({
+                  url: util.requestURL+'/web/v1/medic/getMedicScaleDosageByScaleNo',
+                  type: 'POST',
+                  data:{
+                    scaleNo: val.scaleProducts.scaleNo
+                  },
+                  success: function(scale){
+                    //html += val.scaleProducts.scaleName+'报告：'+val.consumption;
+                    html += '已创建报告总量：'+val.consumption;
+                    //html += ' | '+'剩余'+ val.scaleProducts.scaleName+'报告：'+scale.data.enterpriseScaleDosage.remainingAmount;
+                    html += ' | '+'剩余可用数量：'+scale.data.enterpriseScaleDosage.remainingAmount;
+                    $("#quality").html(html);
+                  }
+                })
+
+                
+              });
+            }else{  
+              layer.msg(data.msg);
+            }
+          }
+        })
+
+        util.client({ // 获取文章列表
+          url: util.requestURL+'/web/v1/medic/listArticle',
+          type: 'POST',
+          data: {
+            pageNum: 1,
+            numPerPage: 6
+          },
+          success: function(data){
+            if(data.code == 1){
+              var html = template.render($("#ggList").text(), data.data);
+              $("#gg").html(html);
+              total = data.data.totalCount;
+              if(url.indexOf('id=') < 0){
+                getArticle(data.data.recordList[0].id);
+              }
+              
+            }else{  
+              layer.msg(data.msg);
+            }
+          }
+        });
+
+        
+
+        $("body").delegate('.ac-gg','click',function(){
+          var id = $(this).attr("data-id");
+          getArticle(id);
+          window.location.href = '#sys-index?id='+id;
+          $("#tap1").trigger('click');
+        });
+
+        function getArticle(id){
+          util.client({
+          url: util.requestURL+'/web/v1/medic/getArticle',
+            data: {
+              id: id
+            },
+            success: function(data){
+              if(data.code == 1){
+                var data = data.data;
+                $("#title").text(data.title);
+                $("#article").html(data.content);
+                $("#time").text(util.getTimeFromNum(data.editTime,1));
+              }else{  
+                layer.msg(data.msg);
+              }
+            }
+          })
+        }
+
+        
+        
+
+        
+
+
+  });
+</script>

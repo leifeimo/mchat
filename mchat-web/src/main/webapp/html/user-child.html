@@ -1,0 +1,264 @@
+
+<link rel="Stylesheet" type="text/css" href="../css/pc_archives.css" />
+<style>
+
+.search_list_content{
+    margin-top:40px;
+    width:950px;
+}
+.search_list_th{
+   color:#FFF;
+   height:35px;
+   line-height:35px;
+   text-align:center;
+}
+.search_list_th p{
+   float:left;
+   background-color:#feaa48;
+ 
+}
+.search_list_th p:nth-child(1){
+	width:15%;
+}
+.search_list_th p:nth-child(2){
+	width:25%;
+}
+.search_list_th p:nth-child(3){
+	width:15%;
+}
+.search_list_th p:nth-child(4){
+	width:15%;
+}
+.search_list_th p:nth-child(5){
+	width:15%;
+}
+.search_list_th p:nth-child(6){
+	width:15%;
+}
+
+
+
+
+
+ul{
+	list-style-type:none;
+}
+.search_list_th_ul{
+   text-align:center;
+   color:#333333;
+   height: 330px;
+}					
+
+.search_ul li{
+   height:30px;
+   line-height:30px;
+   
+   
+}
+.search_ul li:nth-child(odd){
+   background-color:#ffffff;
+  
+}
+.search_ul li:nth-child(even){
+   background-color:#f8f8f8;
+}
+.search_list_th_ul span{
+   float:left;
+   font-size:14px;
+}
+.search_list_th_ul span img{
+	margin-top:10px;
+}
+.search_list_th_ul span:nth-child(1){
+	width:15%;
+
+}
+.search_list_th_ul span:nth-child(2){
+	width:25%;
+}
+.search_list_th_ul span:nth-child(3){
+	width:15%;
+}
+.search_list_th_ul span:nth-child(4){
+	width:15%;
+}
+.search_list_th_ul span:nth-child(5){
+	width:15%;
+}
+.search_list_th_ul span:nth-child(6){
+	width:15%;
+}
+
+</style>
+
+
+
+
+
+
+        <div class="r_content">
+            <div class="r_search">
+               
+               <div class="r_search_l">
+                   <div>
+                       儿童姓名：<input class="chat_input" style="height:30px; width:200px;" type="text" id="name" />
+                   </div>
+                   <div>
+                       出生日期：<input type="text" id="birthYear" class="year" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="4"> 年
+                        <input type="text" id="birthMonth" class="month" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="2"> 月
+                        <input type="text" id="birthDay" class="day" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="2"> 日
+                       <!-- <input name="" class="chat_input Wdate " style="height:30px;width:200px" id="birth" onClick="WdatePicker()" /> -->
+                   </div>
+                   
+               </div>
+               <div class="r_search_m">
+                   <div>
+                       身份信息：<input class="chat_input" style="height:30px; width:200px;" type="text" id="cardNo" />
+                   </div>
+                   <div>
+                       施测日期：<input type="text" id="testYear" class="year" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="4"> 年
+                        <input type="text" id="testMonth" class="month" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="2"> 月
+                        <input type="text" id="testDay" class="day" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="2"> 日
+                       <!-- <input name="" class="chat_input Wdate " style="height:30px;width:200px" id="testDay" onClick="WdatePicker()" /> -->
+                   </div>
+               </div>
+               <div class="r_search_r">
+               <input type="button" id="search" class="r_search_r_btn" value="搜索" />
+               <input type="reset" id="reset" class="r_search_r_btn2" value="清空" />
+               </div>
+               
+               
+            </div>
+            
+            <div class="r_article">     
+
+
+                   <div class="search_list_content">
+
+                     <div class="search_list_th">
+                       <p>儿童姓名</p>
+                       <p>身份信息</p>
+                       <p>出生日期</p>
+                       <!-- <p>报告总数量</p>
+                       <p>我的施测数量</p> -->
+                       <p>性别</p>
+                       <p>孕周</p>
+                       <p>查看</p>
+                     </div>
+                     
+                     <div class="search_list_th_ul">
+                         <ul class="search_ul" id="list">
+                          
+                         </ul>
+                     </div>
+
+
+                     <div class="s_page m_top_30">
+                         <div class="s_page_num" id="page">
+                          
+                         </div>
+                     </div>
+                   
+                   
+                   </div>               
+
+ 
+            </div>
+            
+            
+
+            
+
+            
+            
+        </div>
+      
+    </div>
+
+
+
+<script id="table" type="text/html" >
+{{if recordList && recordList.length}}
+  {{each recordList}}
+  <li>
+     <span>{{$value.testeeName}}</span>
+     <span>{{$value.cardNo}}</span>
+     <span>{{$value.birthYear+'-'+$value.birthMonth+'-'+$value.birthToday}}</span>
+     <span>{{['女','男'][$value.sex]}}</span>
+     <span>{{$value.gestationalWeeks+'周'+$value.gestationalDays+'天'}}</span>
+     <span><a class="ac-check" href="javascript:;" data-cardNo="{{$value.cardNo}}" ><img src="../images/looks.png" /></a></span>
+   </li>
+  {{/each}}
+{{else}}
+  <li>没有查询到相关信息，请检查搜索条件！</li>
+{{/if}}
+</script>
+
+<script>
+  $(document).ready(function(){
+    
+    $("#search").on('click',function(){
+        var y = $("#birthYear").val();
+        var m = $("#birthMonth").val();
+        var d = $("#birthDay").val();
+        var y2 = $("#testYear").val();
+        var m2 = $("#testMonth").val();
+        var d2 = $("#testDay").val();
+        var birth = '';
+        var test = '';
+        if(y==''&&m==''&&d==''){
+           birth = ''
+        }else{
+          birth = (y!=""?y:'0') + '-' + (m!=""?m:'0') + '-' + (d!=""?d:'0');
+        }
+
+        if(y2==''&&m2==''&&d2==''){
+          test = ''
+        }else{
+          test = (y2!=""?y2:'0') + '-' + (m2!=""?m2:'0') + '-' + (d2!=""?d2:'0');
+        }
+        var obj = {
+          url: util.requestURL+'/web/v1/medicMchat/listMchatScoreUnique',
+          type: 'POST',
+          data:{
+            pageNum: 1,
+            numPerPage: 10,
+            testeeName: $("#name").val(),
+            cardNo: $("#cardNo").val(),
+            birth: birth,
+            testDate: test
+          },
+          success: function(data){
+            if(data.code == 1){
+              var html = template.render($("#table").text(), data.data);
+              $("#list").html(html);
+              $("#page").pagination({
+                  totalData: data.data.totalCount,
+                  showData: 10,
+                  pageCount: 10,
+                  current: data.data.currentPage,
+                  coping: true,
+                  callback: function(api){
+                    util.pageClient(obj,api.getCurrent())
+                  }
+              })
+            }else{
+              layer.msg(data.msg);
+            }
+            
+
+          }
+        }
+        util.client(obj);
+    })
+
+    $("#search").trigger('click');
+
+    $("body").delegate('.ac-check','click',function(){
+      var cardNo = $(this).attr('data-cardNo');
+      window.location.href = '#user-report?cardNo='+cardNo;
+    });
+
+  });
+</script>
+

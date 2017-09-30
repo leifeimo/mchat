@@ -1,0 +1,691 @@
+
+<link rel="Stylesheet" type="text/css" href="../../css/pc_archives.css" />
+<style>
+
+.search_list_content{
+    margin-top:40px;
+    width:950px;
+    height: 360px;
+}
+.search_list_th{
+   color:#FFF;
+   height:35px;
+   line-height:35px;
+   text-align:center;
+}
+
+ul{
+	list-style-type:none;
+}
+.search_list_th_ul{
+   text-align:center;
+   color:#333333;
+}					
+
+.search_ul li{
+   height:30px;
+   line-height:30px;
+   overflow: hidden;
+   
+}
+.search_ul li:nth-child(odd){
+   background-color:#ffffff;
+  
+}
+.search_ul li:nth-child(even){
+   background-color:#f8f8f8;
+}
+.search_list_th_ul span{
+   float:left;
+   font-size:14px;
+}
+
+</style>
+
+
+
+
+        <div class="r_content">
+            <div class="r_search">
+               
+               <div class="r_search_l">
+                   <div>
+                       儿童姓名：<input class="chat_input" style="height:30px; width:200px;" type="text" id="name" />
+                   </div>
+                   <div>
+                       出生日期：<input type="text" id="birthYear" class="year" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="4"> 年
+                        <input type="text" id="birthMonth" class="month" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="2"> 月
+                        <input type="text" id="birthDay" class="day" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="2"> 日
+                       <!-- <input name="" class="chat_input Wdate " style="height:30px;width:200px" id="birth" onClick="WdatePicker()" /> -->
+                   </div>
+                   
+               </div>
+               <div class="r_search_m">
+                   <div>
+                       报告编号：<input class="chat_input" id="reportNo" style="height:30px; width:200px;" type="text" />
+                   </div>
+                   <div>
+                       施测日期：<input type="text" id="testYear" class="year" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="4"> 年
+                        <input type="text" id="testMonth" class="month" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="2"> 月
+                        <input type="text" id="testDay" class="day" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="2"> 日
+                       <!-- <input name="" class="chat_input Wdate " style="height:30px;width:200px" id="testDate" onClick="WdatePicker()" /> -->
+                   </div>
+               </div>
+               <div class="r_search_r">
+               <input id="search" type="button" class="r_search_r_btn" value="搜索" />
+               <input type="reset" id="reset" class="r_search_r_btn2" value="清空" />
+               </div>
+               
+               
+            </div>
+            
+            <div class="r_article">     
+                   <div class="search_list_content">
+                   <table class="m-table" cellspacing="0" >
+                     <thead>
+                       <tr>
+                         <th>报告编号</th>
+                         <th>儿童姓名</th>
+                         <th>M-CHAT-R</th>
+                         <th>M-CHAT-R/F</th>
+                         <th>创建时间</th>
+                         <th>基本信息</th>
+                         <th>问卷信息</th>
+                         <th>下载</th>
+                       </tr>
+                     </thead>
+                     <tbody id="list">
+                       
+                     </tbody>
+                   </table>
+                     
+                   </div>
+                   <div class="s_page m_top_30">
+                         <div class="s_page_num" id="page">
+                           
+                         </div>
+                     </div>               
+            </div>
+            
+            
+
+            
+
+            
+            
+        </div>
+        
+
+
+
+    </div>
+
+
+<script id="table" type="text/html" >
+{{if recordList && recordList.length}}
+  {{each recordList}}
+  <tr>
+     <td>{{$value.reportNo}}</td>
+     <td>{{$value.testeeName}}</td>
+     <td>
+        {{$value.downloadCount == '0' ? '请先下载' : $value.score}}
+     </td>
+     <td>
+      {{if $value.mchatScoreRevisedFollow.length != 0}}
+        <a data-index="{{$index}}" data-parentNo="{{$value.scoreNo}}" class="table-btn blue ac-cz" href="javascript:;">操作</a>
+      {{else}}
+        <a class="table-btn gray" href="javascript:;">操作</a>
+      {{/if}}
+     </td>
+     <td>{{$imports.getTimeFromNum($value.createTime,1)}}</td>
+     <td><a data-scoreNo="{{$value.scoreNo}}" class="ac-check" href="javascript:;" ><img src="../../images/looks.png" /></a></td>
+     <td><a data-scoreNo="{{$value.scoreNo}}" class="ac-check-wj" href="javascript:;" ><img src="../../images/looks.png" /></a></td>
+     <td>
+        {{if $value.downloadCount != 0}}
+        <a target="_blank" href="{{$imports.requestURL+'/web/v1/enterpriseMchat/downloadReport?scoreNo='+$value.scoreNo}}"><img src="../../images/s_2.png" /></a>
+        {{else}}
+        <a target="_blank" href="javascript:;" class="ac-down" ><img src="../../images/s_2.png" /></a>
+        {{/if}}
+      </td>
+   </tr>
+  {{/each}}
+{{else}}
+  <tr><td colspan="13" >没有查询到相关信息，请检查搜索条件！</td></tr>
+{{/if}}
+</script>
+
+<script src="../../js/question.js"></script>
+<script id="checkPop" type="text/html" >
+  <div class="r_form" id="check" >
+        <div>儿童姓名:</div>
+        <div>
+        <!-- <input class="chat_input" id="testeeName" style="width:350px" type="text" /> -->
+        <span id="testeeName"></span>
+        </div>
+    </div>
+    
+    <div class="r_form">
+        <div>性别:</div>
+        <div>
+          <!-- <input class="chat_input" id="sex" style="width:350px" /> -->
+          <span id="sex"></span>
+        </div>
+    </div>
+    
+    <div class="r_form">
+        <div>身份信息:</div>
+        <div>
+        <!-- <input  id="cardType" class="chat_input" style="width:120px" /> -->
+        <span id="cardType"></span>
+        <!-- <input class="chat_input" id="cardNo2" style="width:225px" type="text" /> -->
+        <span id="cardNo2"></span>
+        </div>
+    </div> 
+    
+    <BR />
+    <div class="r_form">
+        <div>出生日期:</div>
+        <div>
+        <!-- <input class="chat_input" id="birthDay" style="width:350px; height:37px;"/> -->
+        <span id="birthDays"></span>
+        </div>
+    </div> 
+    <div class="r_form">
+        <div>完成问卷日期:</div>
+        <div>
+        <!-- <input class="chat_input" id="testDay" style="width:350px; height:37px;"/> -->
+        <span id="testDays"></span>
+        </div>
+    </div> 
+   
+    <BR />
+    <div class="r_form">
+        <div>宝宝的孕周:</div>
+        <div>
+        <!-- <input id="gestationalWeeks" class="chat_input r_form_week" style="width:155px" type="text" /> -->
+        <span id="gestationalWeeks"></span> 周
+        <!-- <input id="gestationalDays" class="chat_input r_form_day" style="width:155px" type="text" /> -->
+        <span id="gestationalDays"></span> 天
+        </div>
+    </div>         
+    <div class="r_form">
+        <div>出生时情况:</div>
+        <div id="births"> 
+        </div>
+    </div>
+
+    <div class="r_form">
+        <div>完成问卷人姓名:</div>
+        <div>
+        <!-- <input class="chat_input" id="consignorName" style="width:350px" type="text" /> -->
+        <span id="consignorName"></span>
+        </div>
+    </div>
+    <div class="r_form">
+        <div>与儿童的关系:</div>
+        <div>
+          <!-- <select class="chat_input" id="consignorType" style="width:300px" type="text" >
+            <option selected="selected"  value="0">未选择</option>
+            <option  value="1">父母</option>
+            <option  value="2">祖父母</option>
+            <option  value="3">照看人</option>
+            <option  value="4">老师</option>
+            <option  value="5">其他</option>
+          </select> -->
+          <span id="consignorType"></span>
+        </div>
+    </div>
+    <div class="r_form">
+        <div>儿童出生时的体重:</div>
+        <div>
+        <!-- <input class="chat_input" id="weight" style="width:300px" type="text" /> -->
+        <span id="weight"></span>
+        </div>
+    </div>
+    <div class="r_form">
+        <div>通讯地址:</div>
+        <div>
+        <!-- <input class="chat_input" id="address" style="width:300px" type="text" /> -->
+        <span id="address"></span>
+        </div>
+    </div>
+    <div class="r_form">
+        <div>邮政编码:</div>
+        <div>
+        <!-- <input class="chat_input" id="zip" style="width:300px" type="text" /> -->
+        <span id="zip"></span>
+        </div>
+    </div>
+    <div class="r_form">
+        <div>联系电话:</div>
+        <div>
+        <!-- <input id="tel" class="chat_input" style="width:300px" type="text" /> -->
+        <span id="tel"></span>
+        </div>
+    </div>
+    <div class="r_form">
+        <div>母亲文化程度:</div>
+        <div>
+          <span id="motherCultureDegree"></span>
+          <!-- <select id="motherCultureDegree" class="chat_input" style="width:300px">
+              <option value="0">未选择</option>
+              <option value="1">小学</option>
+              <option value="8">完成部分初中课程</option>
+              <option value="2">初中毕业</option>
+              <option value="3">完成部分高中课程</option>
+              <option value="4">高中毕业</option>
+              <option value="5">完成部分大学课程(至少一年)</option>
+              <option value="6">大学毕业(大专或大学)</option>
+              <option value="7">硕士毕业或以上</option>
+          </select> -->
+        </div>
+    </div>
+    <div class="r_form">
+        <div>母亲职业:</div>
+        <div id="motherCareerCategory"> 
+        </div>
+    </div>
+    <div class="r_form">
+        <div>父亲文化程度:</div>
+        <div>
+          <!-- <select id="fatherCultureDegree" class="chat_input" style="width:300px">
+            <option value="0">未选择</option>
+              <option value="1">小学</option>
+              <option value="8">完成部分初中课程</option>
+              <option value="2">初中毕业</option>
+              <option value="3">完成部分高中课程</option>
+              <option value="4">高中毕业</option>
+              <option value="5">完成部分大学课程(至少一年)</option>
+              <option value="6">大学毕业(大专或大学)</option>
+              <option value="7">硕士毕业或以上</option>
+          </select> -->
+          <span id="fatherCultureDegree"></span>
+        </div>
+    </div>
+    <div class="r_form">
+        <div>父亲职业:</div>
+        <div id="fatherCareerCategory"> 
+        </div>
+    </div>
+    <div class="r_form">
+        <div>主要照顾者文化程度:</div>
+        <div>
+          <!-- <select id="caregiversCultureDegree" class="chat_input" style="width:300px">
+            <option value="0">未选择</option>
+              <option value="1">小学</option>
+              <option value="8">完成部分初中课程</option>
+              <option value="2">初中毕业</option>
+              <option value="3">完成部分高中课程</option>
+              <option value="4">高中毕业</option>
+              <option value="5">完成部分大学课程(至少一年)</option>
+              <option value="6">大学毕业(大专或大学)</option>
+              <option value="7">硕士毕业或以上</option>
+          </select> -->
+          <span id="caregiversCultureDegree"></span>
+        </div>
+    </div>
+    <div class="r_form">
+        <div>母亲出生日期:</div>
+        <div>
+        <!-- <input id="motherBirthDay" class="chat_input" style="width:300px" /> -->
+        <span id="motherBirthDay"></span>
+        </div>
+    </div>
+    <div class="r_form">
+        <div>父亲出生日期:</div>
+        <div>
+        <!-- <input id="fatherBirthDay" class="chat_input" style="width:300px" /> -->
+        <span id="fatherBirthDay"></span>
+        </div>
+    </div>
+    <div class="r_form">
+        <div>婚姻状况:</div>
+        <div>
+        <!-- <select id="maritalStatus" class="chat_input" style="width:300px">
+        <option value="0">未选择</option>
+              <option value="1">未婚</option>
+              <option value="2">已婚</option>
+              <option value="3">离异</option>  
+        </select> -->
+        <span id="maritalStatus"></span>
+        </div>
+    </div>
+    <div class="r_form">
+        <div>备注:</div>
+        <div id="remark"> 
+        </div>
+    </div>
+
+
+
+</script>
+
+<script id="table2" type="text/html" >
+  <table class="m-table" cellspacing="0" >
+    <thead>
+      <tr>
+        <th>报告编号</th>
+        <th>创建时间</th>
+        <th>问卷信息</th>
+        <th>查看</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{each recordList}}
+      
+      <tr>
+        <td>{{$value.reportNo}}</td>
+        <td>{{$imports.getTimeFromNum($value.createTime,1)}}</td>
+        <td><a data-scoreNo="{{$value.scoreNo}}"  class="table-btn ac-table-check" href="javascript:;" >查看</a></td>
+        <td>
+          {{if $value.downloadCount != 0}}
+          <a target="_blank" href="{{$imports.requestURL+'/web/v1/enterpriseMchat/downloadRevisedFollowReport?scoreNo='+$value.scoreNo}}"><img src="../../images/s_2.png" /></a>
+          {{else}}
+          <a target="_blank" href="javascript:;" class="ac-down"><img src="../../images/s_2.png" /></a>
+          {{/if}}
+        </td>
+      </tr>
+
+      {{/each}}
+    </tbody>
+  </table>
+</script>
+
+<script>
+  $(document).ready(function(){
+      var obj = {}
+      $("#search").on('click',function(){
+        var y = $("#birthYear").val();
+        var m = $("#birthMonth").val();
+        var d = $("#birthDay").val();
+        var y2 = $("#testYear").val();
+        var m2 = $("#testMonth").val();
+        var d2 = $("#testDay").val();
+        var birth = '';
+        var test = '';
+        if(y==''&&m==''&&d==''){
+           birth = ''
+        }else{
+          birth = (y!=""?y:'0') + '-' + (m!=""?m:'0') + '-' + (d!=""?d:'0');
+        }
+
+        if(y2==''&&m2==''&&d2==''){
+          test = ''
+        }else{
+          test = (y2!=""?y2:'0') + '-' + (m2!=""?m2:'0') + '-' + (d2!=""?d2:'0');
+        }
+        obj = {
+          url: util.requestURL+'/web/v1/enterpriseMchat/listMchatScoreListPage',
+          type: 'POST',
+          data:{
+            pageNum: 1,
+            numPerPage: 10,
+            testeeName: $("#name").val(),
+            reportNo: $("#reportNo").val(),
+            birth: birth,
+            testDate: test
+          },
+          success: function(data){
+            if(data.code == 1){
+              var html = template.render($("#table").text(), data.data);
+              $("#list").html(html);
+
+              $("#page").pagination({
+                  totalData: data.data.totalCount,
+                  showData: 10,
+                  pageCount: 10,
+                  current: data.data.currentPage,
+                  coping: true,
+                  callback: function(api){
+                    util.pageClient(obj,api.getCurrent())
+                  }
+
+              })
+            }else{
+              layer.msg(data.msg)
+            }
+            
+
+          }
+        }
+        util.client(obj);
+    })
+
+    $("#search").trigger('click');
+    // $("body").delegate('.ac-delete','click',function(e){
+    //   var scoreNo = $(this).attr('data-num');
+    //   console.log(scoreNo);
+    //   layer.confirm('是否确定作废此条报告？',{btn:['确定','取消']},
+    //   function(){
+    //     util.client({
+    //       url: util.requestURL+'/web/v1/medicMchat/deleteReportByScoreNo',
+    //       type: 'POST',
+    //       data:{
+    //         scoreNo: scoreNo
+    //       },
+    //       success: function(data){
+    //         if(data.code == 1){
+    //           layer.alert('操作成功!');
+    //           util.pageClient(obj,util.currentPage)
+    //         }
+    //       }
+    //     });
+    //   })
+      
+    // });
+
+    var jobData = {  // 职业信息
+        Career1 : ['请选择','按日计酬的散工','公共空间清洁工','家庭清洁工','农场工人','食品零售','后厨食物制备工','餐馆楼面杂工'],
+        Career2 : ['请选择','垃圾收集工','快餐厨子','出租车司机','鞋类销售员','流水线工人','泥瓦匠','行李搬运工'],
+        Career3 : ['请选择','油漆工','建筑技工','售货员','卡车司机','厨师','销售柜台','办公室文员'],
+        Career4 : ['请选择','汽车修理工','打字员','锁匠','农场工','木工','前台接待/总机','建筑工人','理发/发型师'],
+        Career5 : ['请选择','机械师/机工','乐手/音乐制作人','簿记员/档案管理员','秘书','保险销售员','家具木工','人事管理','焊工'],
+        Career6 : ['请选择','部门主管','图书管理员','航空机械师','视觉艺术工作者','电工','行政管理人员','现役军人','采购员'],
+        Career7 : ['请选择','护士','熟练技工','医疗卫生专业技术员','顾问/咨询师','经理/经纪','警察','消防员','财务经理','物理治疗师','作业治疗师','言语治疗师'],
+        Career8 : ['请选择','机械工程师','原子能工程师','电子工程师','教育行政人员','兽医','军官','中学教师','小学教师','特殊教育教师'],
+        Career9 : ['请选择','医生','律师','大学任教老师','化工工程师','航天工程师','法官','首席执行官','高级管理人员','公务员','心理师','药剂师','会计师'],
+        Career10 : ['请选择','未受雇佣','其它']
+    }
+
+    var edu = [
+        '未选择',
+        '小学',
+        '完成部分初中课程',
+        '初中毕业',
+        '完成部分高中课程',
+        '高中毕业',
+        '完成部分大学课程(至少一年)',
+        '大学毕业(大专或大学)',
+        '硕士毕业或以上'
+    ];
+
+    $("body").delegate('.ac-check','click',function(){
+      var scoreNo = $(this).attr('data-scoreNo');
+      var height = parseInt(window.innerHeight);
+      height = height > 532 ? '532px' : height+'px';
+      var myLayer = layer.open({
+        title: '基本信息',
+        content: $("#checkPop").html(),
+        btn:['返回'],
+        area: ["700px",height],
+        success: function(){
+          util.client({
+            url: util.requestURL+'/web/v1/enterpriseMchat/getMchatScoreByScoreNo',
+            type: 'POST',
+            data:{
+              scoreNo: scoreNo
+            },
+            success: function(data){
+              var data = data.data;
+              for(key in data){
+                if(data[key] == null){
+                  data[key] = '';
+                }
+              }
+              $("#testeeName").text(data.testeeName);
+              $("#sex").text(['女','男'][data.sex]);
+              $("#cardType").text(['儿童身份证','父亲身份证','母亲身份证','诊疗卡号','','','','','','其他'][data.cardType]);
+              $("#cardNo2").text(data.cardNo);
+              $("#birthDays").text(data.birthYear+'-'+data.birthMonth+'-'+data.birthToday);
+              $("#testDays").text(util.getTimeFromNum(data.createTime));
+              $("#gestationalWeeks").text(data.gestationalWeeks);
+              $("#gestationalDays").text(data.gestationalDays);
+              $("#consignorName").text(data.consignorName);
+              $("#consignorType").text(['','父母','祖父母','照看人','老师','其他'][parseInt(data.consignorType)]);
+              $("#weight").text(data.birthWeight);
+              $("#address").text(data.address);
+              $("#tel").text(data.tel);
+              $("#zip").text(data.zip);
+              $("#motherCultureDegree").text(edu[data.motherCultureDegree]);
+              $("#fatherCultureDegree").text(edu[data.fatherCultureDegree]);
+              $("#caregiversCultureDegree").text(edu[data.caregiversCultureDegree]);
+              $("#remark").text(data.remark);
+              if(data.fatherCareerCategory && data.fatherCareer){
+                $("#fatherCareerCategory").text(jobData['Career'+data.fatherCareerCategory][data.fatherCareer]);
+              }
+              if(data.motherCareerCategory && data.motherCareer){
+                $("#motherCareerCategory").text(jobData['Career'+data.motherCareerCategory][data.motherCareer]);
+              }
+
+              $("#fatherBirthDay").text(util.getTimeFromNum(data.fatherBirthday));
+              $("#motherBirthDay").text(util.getTimeFromNum(data.motherBirthday));
+              $("#maritalStatus").text(['未选择','未婚','已婚','离异'][data.maritalStatus]);
+
+              if(data.births){
+                var births = data.births.split(';');
+                var map = ['足月','早产','顺产','剖腹产','产钳助产','吸引器助产','双胎','其他异常情况'];
+                var html = '';
+                births.map(function(val,i){
+                  html += map[val]+' , ';
+                });
+                html = html.substring(0,html.length-2);
+                $("#births").text(html);
+
+              }
+            }
+          })
+          
+        }
+      })
+    });
+
+    
+
+    $("body").delegate('.ac-check-wj','click',function(){
+      var scoreNo = $(this).attr('data-scoreNo');
+      util.client({
+        url: util.requestURL+'/web/v1/enterpriseMchat/getMchatQuestionnaireResponse',
+        type: 'POST',
+        data: {
+          scoreNo: scoreNo
+        },
+        success: function(data){
+          if(data.code == 1){
+            layer.open({
+              title: '问卷填写信息',
+              content: '<div id="wj"></div>',
+              success: function(){
+                var list = data.data;
+                var html = '';
+                for(key in list){
+                  if(key.indexOf('topic_') == 0){
+                    var num = key.split('_')[1];
+                    var an = list[key] == 'Y' ? '是' : '否';
+                    html += '<p> '+num+'.'+questions[num-1]+'</p>'+
+                            '<p> 回答： '+an+'</p><br/>';
+                  }
+                }
+                $("#wj").html(html);
+              },
+              area: ["700px",'500px'],
+              btn: ["返回"]
+            })
+          }else{
+            layer.msg(data.msg);
+          }
+
+        }
+
+      })
+    });
+
+    $("body").delegate('.ac-cz','click',function(){
+      var n = $(this).attr('data-index');
+      var parentNo = $(this).attr("data-parentNo");
+      util.client({
+        url: util.requestURL+'/web/v1/enterpriseMchat/listMchatScoreRevisedFollow',
+        type: 'POST',
+        data:{
+          pageNum: 1,
+          parentNo: parentNo,
+          numPerPage: 100,
+        },
+        success: function(resp){
+          console.log(resp.data.recordList)
+          cz = layer.open({
+            title: '查看M-CHAT-R/F报告',
+            content: '<div id="mchat-r" ></div>',
+            area: ['600px','400px'],
+            type: 1,
+            success: function(){
+              var html = template.render($("#table2").text(), resp.data);
+              $("#mchat-r").html(html);
+              
+            },
+            btn: ['取消'],
+            yes: function(layers){
+              //createReport(n,parentNo);
+              layer.close(layers);
+            }
+
+          })
+        }
+      })
+      
+    });
+
+    // 弹窗表格事件绑定
+    $("body").delegate('.ac-table-check','click',function(){
+      var scoreNo = $(this).attr("data-scoreNo");
+      util.client({
+        url: util.requestURL+'/web/v1/enterpriseMchat/getMchatQuestionnaireResponseRevisedFollow',
+        type: 'POST',
+        data:{
+          scoreNo: scoreNo,
+        },
+        success: function(data){
+          if(data.code == 1){
+            layer.open({
+              title: '问卷填写信息',
+              content: '<div id="wj"></div>',
+              success: function(){
+                var list = data.data;
+                var html = '';
+                for(key in list){
+                  if(key.indexOf('topic_') == 0){
+                    var num = key.split('_')[1];
+                    var an = list[key] == 'Y' ? '通过' : '不通过';
+                    html += '<p> '+num+'.'+questions[num-1]+'</p>'+
+                            '<p> 回答： '+an+'</p><br/>';
+                  }
+                }
+                $("#wj").html(html);
+              },
+              area: ["700px",'500px'],
+              btn: ["返回"]
+            })
+          }else{
+            layer.msg(data.msg);
+          }
+        }
+      })
+    });
+
+    $("body").delegate('.ac-down','click',function(){
+      layer.msg('需要报告所属施测者先下载才能查看')
+      return
+    })
+
+  });
+</script>
+

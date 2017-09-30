@@ -1,0 +1,660 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit">
+<title>登录</title>
+<script src="../js/jquery.min.js"></script>
+<!--[if lte IE 9]><script src="../js/selectivizr-min.js"></script><![endif]-->
+<link rel="Stylesheet" type="text/css" href="../css/style.css?v=11" />
+
+<style>
+
+.login_tip{
+	height:60px;
+	line-height:60px;
+	color:#d6edc4;
+}
+#content{
+	background-image:url(../images/bg4.jpg) !important;
+}
+.l_login{
+	background-color:#8dcac2;
+	width:292px;
+	height:360px;
+	padding:20px;
+	border:1px #accdd2 solid;
+	-moz-box-shadow:0px 0px 5px #ADADAD; -webkit-box-shadow:0px 0px 5px #ADADAD; box-shadow:0px 0px 5px #ADADAD;
+	-moz-border-radius:5px; 
+    border-radius: 5px; 
+}
+
+
+.l_login_cho p{
+	float:left;
+	width:146px;
+	height:48px;
+	line-height:48px;
+	text-align:center;
+	-moz-border-radius:15px 15px 0 0; 
+    border-radius: 15px 15px 0 0;
+	cursor:pointer;
+}
+.l_login_cho p:nth-child(1){
+	background-color:#d6edc4;
+	color:#467476;
+	
+}
+.l_login_cho p:nth-child(2){
+	background-color:#298793;
+	color:#e2eff1;
+	background-image:url(../images/login_5.jpg);
+	
+}
+.l_login_cho img{
+	vertical-align:middle	
+}
+
+
+
+.log_form{
+	clear:left;
+	height:310px;
+	background-color:#d6edc4;
+	border:1px #bbdfbe solid;
+}
+.log_form p{
+	margin-top:45px;
+	margin-left:26px;
+	color:#727171;
+}
+.lbg1{
+    /*background: url(../images/login_1.jpg) no-repeat scroll left center transparent;*/
+}
+.lbg2{
+    /*background: url(../images/login_2.jpg) no-repeat scroll left center transparent;*/
+}
+.login_tex{
+	width:166px;
+    padding-left: 70px;
+	background-color:#FFF;
+	height:45px;
+	line-height:45px;
+	border:0;
+	-moz-border-radius:4px; 
+    border-radius: 4px; 
+}
+
+.login_tex2:hover
+{
+	width:164px;
+	height:23px;
+	line-height:23px;
+	border:1px #469ca5 solid;
+}
+
+.login_tex2{
+	width:166px;
+    padding-left: 70px;
+	background-color:#FFF;
+	height:25px;
+	line-height:25px;
+	border:0;
+	-moz-border-radius:4px; 
+    border-radius: 4px; 
+}
+
+.login_tex:hover
+{
+	width:164px;
+	height:43px;
+	line-height:43px;
+	border:1px #469ca5 solid;
+}
+
+
+.login_btn{
+	width:237px;
+	height:45px;
+	line-height:45px;
+	border:1px #469ca5 solid;
+	background: url(../images/lbtn.jpg) no-repeat scroll left center transparent;
+	color:#fff;
+	-moz-border-radius:4px; 
+    border-radius: 4px;
+	cursor:pointer;
+}
+.login_btn:hover{
+	background-image:!important;
+	/*color:#ffa200;*/
+	border:1px #00ffff solid;
+
+}
+.login_btn2{
+	width:237px;
+	height:45px;
+	line-height:45px;
+	border:1px #469ca5 solid;
+	background-color:#d6edc4;
+	color:#397c92;
+	-moz-border-radius:4px; 
+    border-radius: 4px;
+	cursor:pointer;
+}
+
+.login_btn2:hover{
+	/*color:#ffa200;*/
+	border:1px #00ffff solid;
+}
+
+
+.forget{
+	display:block;
+	float:right;
+	margin:10px 40px 0 0; 
+	color:#65948e; 
+	font-size:12px;
+}
+.forget a{
+	text-decoration:none !important;
+}
+#tab2{
+	background-image:url(../images/login_6.jpg) !important;
+	 border:1px #3e979e solid !important;
+}
+#tab2 .forget{
+	color:#fff;
+}
+.forget-con{
+  display:none;
+}
+
+.forget_p{
+  margin-top:5px !important;
+  margin-left:26px;
+}
+.forget_p1{
+  margin-top:7px !important;
+  margin-left:26px;
+  color:#a2afc0;
+}
+.forget_p1 img{
+  position:relative;
+  top:2px;
+  margin-right:5px;
+}
+
+.yzm-img{
+  display: inline-block;
+  width:78px;
+  height: 24px;
+  position: relative;
+  top:8px;
+}
+html{
+    height:100%;
+}
+    body {
+        height:100%;
+    }
+    .Absolute-Center {  
+  margin: auto;  
+  position: absolute;  
+  top: 0; left: 0; bottom: 0; right: 0;  
+}  
+
+</style>
+</head>
+
+<body style=" display:block; overflow:auto;">
+
+
+<div id="content" style="background-size:100% 100%; ">
+
+    <!--jx_head S-->
+    <div id="head" class="b_blues" style="height:60px; width:100%">
+	
+        <div id="head_top">
+		    <div style="float:left">
+	        <div class="head_logo"><img src="../images/logo.jpg" /></div>
+			</div>
+			
+			<div id="login_out">
+			    <p class="login_tip">
+				请您登录系统平台！
+				</p>
+			</div>
+		</div>
+
+	</div>
+    <!--jx_head E-->
+    
+    <div class="l_login Absolute-Center">
+
+        <div class="l_login_cho">
+            <p id="tab_1"><img src="../images/login_3.png" />&nbsp;&nbsp;施测者登录</p>
+            <p id="tab_2"><img src="../images/login_4.png" />&nbsp;&nbsp;管理员登录</p>
+        </div>
+
+        <div class="log_form" id="tab1">
+            <form method="post" id="test">
+                <p>
+                    <input type="text" class="login_tex lbg1" id="testAccount" placeholder="请输入您的账号" />
+                </p>
+                <p>
+                    <input type="password" class="login_tex lbg2" id="testPwd" placeholder="请输入您的密码" />
+                    <span class="forget"><a href="javascript:;" id="toForget1">忘记密码?</a></span>
+                </p>
+                <p>
+                    <input type="submit" class="login_btn" value="登录" />
+                </p>
+            </form>
+
+            <form method="post" id="forget1" class="forget-con">
+                <p class="forget_p1"><img src="../images/forget1.png" />施测者账号</p>
+                <p class="forget_p">
+                    <input type="text" class="login_tex2 lbg1" id="for-name" placeholder="请输入您的账号" />
+                </p>
+
+                <p class="forget_p1"><img src="../images/forget2.png" />真实姓名</p>
+                <p class="forget_p">
+                    <input type="text" class="login_tex2 lbg2" id="for-pwd" placeholder="请输入真实姓名" />
+                </p>
+
+                <p class="forget_p1"><img src="../images/forget2.png" />身份证号码</p>
+                <p class="forget_p">
+                    <input type="text" class="login_tex2 lbg2" id="for-p" placeholder="请输入您的身份证号码" />
+                </p>
+                <p class="forget_p1"><img src="../images/forget2.png" />验证码</p>
+                <p class="forget_p">
+                    <input type="text" class="login_tex2 lbg2" style="padding-left:0px; width:150px;" id="for-code" placeholder="请输入验证码" />
+                    <span id="v_container" class="yzm-img">  </span>
+                </p>
+                <p class="forget_p" style="margin-top:20px !important;">
+                    <input type="submit" class="login_btn" id="reset1" value="重置密码" />
+                </p>
+
+            </form>
+
+        </div>
+
+
+        <div class="log_form" id="tab2" style="display:none">
+            <form method="post" id="admin">
+                <p>
+                    <input type="text" class="login_tex lbg1" id="adminAccount" placeholder="请输入您的账号" />
+                </p>
+                <p>
+                    <input type="password" class="login_tex lbg2" id="adminPwd" placeholder="请输入您的密码" />
+                    <span class="forget"><a href="javascript:;" id="toForget2">忘记密码?</a></span>
+                </p>
+                <p>
+                    <input type="submit" class="login_btn2 " value="登录" />
+                </p>
+            </form>
+
+            <form method="post" id="forget2" class="forget-con">
+                <p class="forget_p1" style="color: #ccc;"><img src="../images/forget1.png" />管理员账号</p>
+                <p class="forget_p">
+                    <input type="text" class="login_tex2 lbg1" id="for-name2" placeholder="请输入您的账号" />
+                </p>
+
+                <p class="forget_p1" style="color: #ccc;"><img src="../images/forget2.png" />新密码</p>
+                <p class="forget_p">
+                    <input type="password" class="login_tex2 lbg2" id="for-pwd2" placeholder="请输入您的密码" />
+                </p>
+
+                <p class="forget_p1" style="color: #ccc;"><img src="../images/forget2.png" />PUK码</p>
+                <p class="forget_p">
+                    <input type="password" class="login_tex2 lbg2" id="for-p2" placeholder="请输入您的PUK码" />
+                </p>
+                <p class="forget_p1" style="color: #ccc;"><img src="../images/forget2.png" />验证码</p>
+                <p class="forget_p">
+                    <input type="text" class="login_tex2 lbg2" style="padding-left:0px; width:150px;" id="for-code2" placeholder="请输入验证码" />
+                    <span id="v_container2" class="yzm-img">  </span>
+                </p>
+                <p class="forget_p" style="margin-top:20px !important;">
+                    <input type="submit" class="login_btn" value="重置密码" />
+                </p>
+            </form>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+<script src="../js/layer/layer.js" ></script>
+<script src="../js/util.js" ></script>
+ <script src="../js/yzm.js" ></script> 
+  
+    <script type="text/javascript">
+    /**
+     * 解决IE下不支持placeholder属性
+     * author : MR chen  370489175@qq.com
+     * Date: 16-01-19
+     * 可以根据自己的需要去扩展
+     * ps:写的很简单  根据自己的需求来  不喜勿喷
+     */
+    ; (function ($) {
+        $.fn.placeholder = function (options) {
+            var opts = $.extend({}, $.fn.placeholder.defaults, options);
+            var isIE = document.all ? true : false;
+            return this.each(function () {
+                var _this = this,
+                    placeholderValue = _this.getAttribute("placeholder"); //缓存默认的placeholder值
+                    typeValue = _this.getAttribute("type"); //缓存默认的placeholder值
+                    if (isIE) {
+
+                    if (typeValue == "password" && $.trim(_this.value)== "")
+                    {
+                        _this.setAttribute("type", "text");
+                        _this.setAttribute("data-type", typeValue);
+                        _this.value = placeholderValue;
+                    }
+
+                    _this.setAttribute("value", placeholderValue);
+                    $(_this).css("color", "#777");
+                    _this.onfocus = function () {
+                        $.trim(_this.value) == placeholderValue ? _this.value = "" : '';
+
+                        //alert(_this.getAttribute("data-type"));
+                        if (_this.getAttribute("data-type") == "password")
+                        {
+                            _this.setAttribute("type", "password");
+                        }
+                        $(_this).css("color", "#000");
+                        
+                    };
+                    _this.onblur = function () {
+                        
+
+                        if (_this.getAttribute("data-type") == "password" && ($.trim(_this.value) == "" || $.trim(_this.value) == _this.getAttribute("placeholder"))) {
+                            _this.setAttribute("type", "text");
+                            _this.value = placeholderValue; 
+                        }
+                        else if ($.trim(_this.value) == "") {
+                            _this.value = placeholderValue;
+                            $(_this).css("color", "#777");
+                        }
+
+                    };
+                }
+            });
+        };
+    })(jQuery);
+    </script>
+
+<script type="text/javascript">
+
+
+
+
+
+
+
+$(function(){ 
+   
+    try {
+        var verifyCode1 = new GVerify("v_container");
+        var verifyCode2 = new GVerify({
+            id: "v_container2",
+            canvasId: 'verifyCanvas2'
+        });
+
+
+    }
+    catch (e)
+    {
+
+    }
+    try {
+        
+        $("#testAccount").placeholder();
+        $("#testPwd").placeholder();
+
+        $("#adminAccount").placeholder();
+        $("#adminPwd").placeholder();
+
+
+        $("#for-name2").placeholder();
+        $("#for-pwd2").placeholder();
+        $("#for-p2").placeholder();
+        $("#for-code2").placeholder();
+         
+        $("#for-name").placeholder();
+        $("#for-pwd").placeholder();
+        $("#for-p").placeholder();
+        $("#for-code").placeholder();
+
+
+        
+
+    }
+    catch (e) {
+
+    }
+    
+
+
+ 
+    $(window).resize(function(){
+        /*
+        $('.l_login').css({
+            position:'absolute',
+            left:($(window).width() - $('.l_login').outerWidth())/2,
+            top:($(window).height() - $('.l_login').outerHeight())/2 + $(document).scrollTop()
+        });
+        */
+		//$("#content").css({height:$(window).height()+"px"});
+    });
+
+    //$(window).resize();
+
+	$("#tab_1").click(function(){
+		$(".log_form").hide();
+		$("#tab1").show();
+    $("#test").show();
+    $("#forget1").hide();
+	});
+	
+	$("#tab_2").click(function(){
+	    $(".log_form").hide();
+	    $("#tab2").show();
+	    $("#admin").show();
+	    $("#forget2").hide();
+	});
+ 
+
+  $("#toForget1").click(function(){
+    $("#test").hide();
+    $("#forget1").show();
+  });
+
+  $("#toForget2").click(function(){
+    $("#admin").hide();
+    $("#forget2").show();
+  });
+
+    $("#forget1").on('submit',function(e){
+      var username = $("#for-name").val();
+      var password = $("#for-pwd").val();
+      var p = $("#for-p").val();
+      var code = $("#for-code").val();
+      flag = verifyCode1.validate(code);
+      if(username == ''){
+            layer.msg('请输入施测者账号！');
+            return false;
+        }
+        if(password == ''){
+            layer.msg('请输入真实姓名！');
+            return false;
+        }
+        if(p == ''){
+            layer.msg('请输入身份证号码！');
+            return false;
+        }
+        if(!flag){
+          layer.msg('验证码错误，请重新输入！');
+            return false;
+        }
+        $.ajax({
+            url: util.requestURL+'/web/v1/medic/findMedicLoginPwd',
+            type: 'POST',
+            data:{
+                loginName: username,            //test002@qq.com,
+                realName: password,             //123456
+                cardNo: p
+            },
+            success: function(data){
+                if(data.code == 1){
+                    layer.msg('修改成功');
+                }else{
+                    layer.alert(data.msg);
+                }
+            },
+            xhrFileds:{
+              withCredentials: true
+            },
+            crossDomain: true
+        });
+        return false;
+    });
+
+    $("#forget2").on('submit',function(e){
+      var username = $("#for-name2").val();
+      var password = $("#for-pwd2").val();
+      var p = $("#for-p2").val();
+      var code = $("#for-code2").val();
+      flag = verifyCode2.validate(code);
+      if(username == ''){
+            layer.msg('请输入施测者账号！');
+            return false;
+        }
+        if(password == ''){
+            layer.msg('请输入新密码！');
+            return false;
+        }
+        if(p == ''){
+            layer.msg('请输入PUK码！');
+            return false;
+        }
+        if(!flag){
+          layer.msg('验证码错误，请重新输入！');
+            return false;
+        }
+        $.ajax({
+            url: util.requestURL+'/web/v1/enterprise/user/findEnterpriseLoginPwd',
+            type: 'POST',
+            data:{
+                loginName: username,            //test002@qq.com,
+                newLoginPwd: password,             //123456
+                puk: p
+            },
+            success: function(data){
+                if(data.code == 1){
+                    layer.msg('修改成功');
+                }else{
+                    layer.alert(data.msg);
+                }
+            },
+            xhrFileds:{
+              withCredentials: true
+            },
+            crossDomain: true
+        });
+        return false;
+    });
+
+    $("#test").on('submit',function(e){
+        var username = $("#testAccount").val();
+        var password = $("#testPwd").val();
+        if(username == ''){
+            layer.msg('请输入用户名！');
+            return false;
+        }
+        if(password == ''){
+            layer.msg('请输入密码！');
+            return false;
+        }
+        $.ajax({
+            url: util.requestURL+'/web/v1/medic/oauth-server/oauth/token',
+            type: 'POST',
+            data:{
+                // client_id:'medic-client',
+                // client_secret:'medic',
+                // grant_type:'password',
+                // scope:'read write',
+                username: username,            //test002@qq.com,
+                password: password             //123456
+            },
+            success: function(data){
+                if(data.code == 1){
+                    layer.msg('登录成功');
+                    sessionStorage.token = data.data.access_token;
+                    setTimeout(function(){
+                        window.location.href = 'choose-system.html';
+                    },1000)
+                    
+                }else{
+                    layer.alert(data.msg);
+                }
+            },
+            xhrFileds:{
+              withCredentials: true
+            },
+            crossDomain: true
+        });
+        return false;
+    });
+
+    $("#admin").on('submit',function(e){
+        var username = $("#adminAccount").val();
+        var password = $("#adminPwd").val();
+        if(username == ''){
+            layer.msg('请输入用户名！');
+            return false;
+        }
+        if(password == ''){
+            layer.msg('请输入密码！');
+            return false;
+        }
+        $.ajax({
+            url: util.requestURL+'/web/v1/enterprise/oauth-server/oauth/token',
+            type: 'POST',
+            data:{
+                // client_id:'enterprise-client',
+                // client_secret:'enterprise',
+                // grant_type:'password',
+                // scope:'read write',
+                username: username,            //'CROP8888',
+                password: password             //'abc123456'
+            },
+            success: function(data){
+                if(data.code == 1){
+                    layer.msg('登录成功');
+                    sessionStorage.token = data.data.access_token;
+                    setTimeout(function(){
+                        window.location.href = 'admin/choose-system.html';
+                    },1000)
+                }else{
+                    layer.alert(data.msg);
+                }
+            }
+            ,
+            xhrFileds:{
+              withCredentials: true
+            },
+        });
+        return false;
+    });
+	
+
+}); 
+
+
+
+</script>
+</body>
+</html>

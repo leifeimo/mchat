@@ -14,12 +14,15 @@ import java.util.Map;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
+import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
+import com.itextpdf.text.pdf.PdfWriter;
 
 /**
  * 
@@ -43,6 +46,8 @@ public class ExportPdfUtil {
 		if (!tempDir.exists()) {
 			tempDir.mkdirs();
 		}
+		Document document = new Document();
+		document.addTitle("");
 		// 得到当前时间
 		Date now = new Date();
 		SimpleDateFormat dataformat = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
@@ -127,20 +132,33 @@ public class ExportPdfUtil {
 		return filename;
 	}
 	
-	public static void main(String[] args) throws IOException {
-		Map<String,String> content=new HashMap<String,String>();
-		  content.put("name", "你好");//根据模板定义的输入域的名字（如：name），填充值
-		  content.put("sex", "男");
-		  content.put("birthDate", "2016-05-12");
-		  content.put("createTime", "2017-05-12");
-//		  content.put("score", "98");
-		  content.put("r_score", "98");
-		  content.put("r_f_score", "98");
-		  content.put("enterpriseName", "测试机构");
-		  content.put("medicName", "鲍赣修");
-		  content.put("gestationalWeeks", "40周1天");
-		  content.put("age", "1周岁");
-		  content.put("births", "足月；剖腹产；双胞胎");
-		 ExportPdfUtil.exportpdf("D:\\test", "D:\\test\\B.pdf",  content,null);
+	public static void test() throws FileNotFoundException, DocumentException{
+		Document document = new Document();  
+		//Step 2—Get a PdfWriter instance.  
+		PdfWriter.getInstance(document, new FileOutputStream("F:\\src\\A.pdf"));  
+		//Step 3—Open the Document.  
+		document.open();  
+		//Step 4—Add content.  
+		document.add(new Paragraph("Hello World"));  
+		//Step 5—Close the Document.  
+		document.close();  
+	}
+	
+	public static void main(String[] args) throws IOException, DocumentException {
+//		Map<String,String> content=new HashMap<String,String>();
+//		  content.put("name", "你好");//根据模板定义的输入域的名字（如：name），填充值
+//		  content.put("sex", "男");
+//		  content.put("birthDate", "2016-05-12");
+//		  content.put("createTime", "2017-05-12");
+////		  content.put("score", "98");
+//		  content.put("r_score", "98");
+//		  content.put("r_f_score", "98");
+//		  content.put("enterpriseName", "测试机构");
+//		  content.put("medicName", "鲍赣修");
+//		  content.put("gestationalWeeks", "40周1天");
+//		  content.put("age", "1周岁");
+//		  content.put("births", "足月；剖腹产；双胞胎");
+//		 ExportPdfUtil.exportpdf("D:\\test", "D:\\test\\B.pdf",  content,null);
+		test();
 	}
 }

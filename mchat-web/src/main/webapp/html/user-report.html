@@ -13,6 +13,7 @@
 <link rel="Stylesheet" type="text/css" href="../css/pc_archives.css" />
 
         <div class="r_content">
+        <form method="get" id="report_search">
             <div class="r_search">
                
                <div class="r_search_l">
@@ -42,10 +43,10 @@
                    </div>
                </div>
                <div class="r_search_r">
-               <input type="button" id="search" class="r_search_r_btn" value="搜索" />
+               <input type="submit" id="search" class="r_search_r_btn" value="搜索" />
                <input type="reset" id="reset" class="r_search_r_btn2" value="清空" />
                </div>
-               
+         </form>      
                
             </div>
             
@@ -303,7 +304,6 @@
         <div id="births"> 
         </div>
     </div>
-
     <div class="r_form">
         <div>完成问卷人姓名:</div>
         <div>
@@ -491,7 +491,7 @@
 
     var obj = {};
     var respData = {};
-      $("#search").on('click',function(){
+      $("#report_search").on('submit',function(e){
         var y = $("#birthYear").val();
         var m = $("#birthMonth").val();
         var d = $("#birthDay").val();
@@ -869,6 +869,38 @@ function createReport(n,scoreNo){
       //     $(".r_form").find('select').attr('disabled','disabled');
       //   },
       //   yes: function(){
+    	  
+    	  util.client({
+          url: util.requestURL+'/web/v1/medic/listMedicScaleDosage',
+          success: function(data){
+            if(data.code == 1){
+              //console.log(data.data)
+              var html = '';
+              data.data.map(function(val,i){
+                util.client({
+                  url: util.requestURL+'/web/v1/medic/getMedicScaleDosageByScaleNo',
+                  type: 'POST',
+                  data:{
+                    scaleNo: val.scaleProducts.scaleNo
+                  },
+                  success: function(scale){
+                    //html += val.scaleProducts.scaleName+'报告：'+val.consumption;
+                    html += '已创建报告总量：'+val.consumption;
+                    //html += ' | '+'剩余'+ val.scaleProducts.scaleName+'报告：'+scale.data.enterpriseScaleDosage.remainingAmount;
+                    html += ' | '+'剩余可用数量：'+scale.data.enterpriseScaleDosage.remainingAmount;
+                    alert(html);
+                  }
+                })
+
+                
+              });
+            }else{  
+              layer.msg(data.msg);
+            }
+          }
+        })
+    	  
+    	  
           var lay = layer.open({
             title: '请回答下列问题以完善问卷',
             content: $("#q").html(),

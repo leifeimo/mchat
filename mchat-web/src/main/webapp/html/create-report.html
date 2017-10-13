@@ -572,6 +572,7 @@
             var motherCultureDegree = $("#motherCultureDegree").val();
             var motherCareerCategory = $("#motherCareerCategory").val();
             var motherCareer = $("#motherCareer").val();
+            alert(motherCareer)
             var fatherCultureDegree = $("#fatherCultureDegree").val();
             var fatherCareerCategory = $("#fatherCareerCategory").val();
             var fatherCareer = $("#fatherCareer").val();
@@ -920,12 +921,17 @@
     });
 	
 	$("body").delegate('#births-sure-close','click',function(e){
-      var html = '';
-      $(".births:checked").each(function(i,dom){
-        html += $(dom).next().text() + ',';
-      });
-      html = html.substring(0,html.length-1);
-      $("#birthsInput").text(html);
+		 var html = '';
+		var old_html= $("#birthsInput").text();
+		if(old_html == ''){
+			 $("#birthsInput").text(html);
+			 $("input[type=checkbox]").prop("checked",false);
+			$(".births-pop").hide();
+			return false;
+		}
+		$("#birthsInput").text(old_html);
+     
+      
       e.stopPropagation();
       $(".births-pop").hide();
 
@@ -977,6 +983,7 @@
                           layer.close(lay);
                         }
                         layer.msg(data.msg);
+                        $("#clean-btn").click();
                       }
                     })
                   }else{
@@ -1034,7 +1041,6 @@
     })
 
     $("body").delegate('#clean-btn', 'click', function(event) {
-      //alert()
       $("input[type=text]").val('');
       $("#birthsInput").text("");
       $("#cardType option:first").prop("selected", 'selected');

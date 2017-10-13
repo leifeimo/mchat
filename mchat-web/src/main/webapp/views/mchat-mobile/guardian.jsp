@@ -333,7 +333,11 @@
 		</p>
       </div>        
 
-
+ <div id="d_abnormalities" class="m_list b_solid "  style="display:none">
+        <p class="box"><span></span></p>
+        <p>异常情况说明</p>
+        <p><span>&nbsp;</span><input type="text" value="${report.abnormalities}" name="abnormalities" id="abnormalities"}/></p>
+      </div>
       <div class="m_list_1 b_solid" style="display:none">
         <p class="box"><span><img src="../images/m_tip_10.png" /></span></p>
         <p>早产矫正龄(多选)</p>
@@ -666,6 +670,7 @@
 	    var birthsArrayName = "";
 	    $.each($(".m-select-info-c-t i"), function (i, v) {
 	        if ($(this).hasClass("show-g")) {
+	        	var data_id=$(this).attr("data-id");
 	            birthsArray += $(this).attr("data-id") + ";";
 	            birthsArrayName += $(this).attr("data-value") + ";";
 	        }
@@ -677,6 +682,13 @@
 	    //alert("birthsArray="+birthsArray);
 	    //alert("birthsArrayName=" + birthsArrayName);
 	    $("#births").val(birthsArray);
+	    if(birthsArray.indexOf("7") > 0 ||birthsArray==7){
+		    $("#d_abnormalities").css('display','block'); 
+		}else{
+			$("#abnormalities").text("");
+			$("#abnormalities").val(""); 
+			$("#d_abnormalities").css('display','none'); 
+		}
 	    $("#birthsResult").val(birthsArrayName);
 	}
 
@@ -779,7 +791,7 @@ $(function () {
     	}else{
     		sex = -1;
     	}
-    	var birthDay = $("#reportForm input[name='birthDay']").val();  	
+    	var birthDay = $("#reportForm input[name='birthDay']").val();  
         var birthYear = 0;
         var birthMonth = 0;
         var birthToday = 0;
@@ -797,6 +809,16 @@ $(function () {
     		testMonth=parseInt(testDay.split("-")[1]);
     		testToday=parseInt(testDay.split("-")[2]);
     	}
+    	 var flag = (testYear - birthYear)*12;
+         flag = flag + (testMonth - birthMonth);
+         
+         flag = (testToday - birthToday) >= 0 ? flag : flag - 1; 
+
+         if(flag > 23){
+        	 $("#births").val("");
+     	    $("#birthsResult").val("");
+         }
+    	
     	var gestationalWeeks = $("#reportForm input[name='gestationalWeeks']").val();
     	if(gestationalWeeks!=null&&gestationalWeeks!=""){
     		gestationalWeeks = parseInt(gestationalWeeks);
@@ -824,6 +846,7 @@ $(function () {
     	var tel = $("#reportForm input[name='tel']").val();
     	var remarks = $("#reportForm input[name='remarks']").val();
     	var patronnInfo = $("#reportForm input[name='patronnInfo']").val();
+    	var abnormalities = $("#reportForm input[name='abnormalities']").val();
     	var motherCultureDegree = $("#motherCultureDegree").children('option:selected').val();
     	if(motherCultureDegree!=null&&motherCultureDegree!=""){
     		motherCultureDegree = parseInt(motherCultureDegree);
@@ -895,6 +918,7 @@ $(function () {
 	        email : email,
 	        remarks: remarks,
 	        patronnInfo:patronnInfo,
+	        abnormalities:abnormalities,
 	        motherCultureDegree: motherCultureDegree,
 	        motherCareerCategory: motherCareerCategory,
 	        motherCareer: motherCareer,
@@ -932,48 +956,7 @@ $(function () {
     
     
     //施测者列表初始化,没传值，才去接口获取
-    if(enterNo!=''&&scaleNo!=''){
-    	$.ajax({
-        	url: util.requestURL+'/api/v1/medicMchat/listMedic',
-        	data:{"enterpriseNo":enterNo,"scaleNo":scaleNo},
-            type: 'POST',
-            success: function(data){
-              if(data.code == 1){
-              	  var user = data.data.recordList[0];
-               	  $("#medicName").html(user.realName);
-               	  //$("#m_test_name input[name='enterpriseNo']").val(user.enterpriseNo);
-               	  $("#m_test_name input[name='medicNo']").val(user.medicNo);
-               	  $("#m_test_name input[name='medicName']").val(user.realName);
-               	  var html = "<option value='' enterpriseNo=''>"+'切换'+"</option>"
-				  var userList = data.data.recordList;
-               	  for (var i = 0; i < userList.length; i++) {
-						var user = userList[i];
-						html += "<option value='"+user.medicNo+"' enterpriseNo='"+user.enterpriseNo+"'>"+user.realName+"</option>";	
-				  }
-				  $("#changeTestName").empty().append(html);
-              }else{
-              	  //接口获取失败
-              	  $("#medicName").html("未查询到施测者信息");
-              }
-            }
-        });
-    	
-    	$("#changeTestName").on('change',function(){
-    		var medicNo = $(this).children('option:selected').val(); 
-    		var medicName = $(this).children('option:selected').html();
-    		//var enterpriseNo = $(this).children('option:selected').attr('enterpriseNo');
-    		if(medicNo!=''){
-    			$("#medicName").html(medicName);
-    	      	$("#m_test_name input[name='medicNo']").val(medicNo);
-    	      	$("#m_test_name input[name='medicName']").val(medicName);
-    	      	//$("#m_test_name input[name='enterpriseNo']").val(enterpriseNo);
-    		}
-    		
-    	})
-    }
-    
-  	//只有medicNo  直接查医生名称显示
-  	var medicNo = '${report.medicNo}';
+    var medicNo = '${report.medicNo}';
     if(medicNo!=''){
     	$.ajax({
     		url: util.requestURL+'/api/v1/medic/getMedicInfo',
@@ -987,7 +970,51 @@ $(function () {
     	      	$("#changeTestName").hide();
             }
     	})
+    }else{
+    	if(enterNo!=''&&scaleNo!=''){
+        	$.ajax({
+            	url: util.requestURL+'/api/v1/medicMchat/listMedic',
+            	data:{"enterpriseNo":enterNo,"scaleNo":scaleNo},
+                type: 'POST',
+                success: function(data){
+                  if(data.code == 1){
+                  	  var user = data.data.recordList[0];
+                   	  $("#medicName").html(user.realName);
+                   	  //$("#m_test_name input[name='enterpriseNo']").val(user.enterpriseNo);
+                   	  $("#m_test_name input[name='medicNo']").val(user.medicNo);
+                   	  $("#m_test_name input[name='medicName']").val(user.realName);
+                   	  var html = "<option value='' enterpriseNo=''>"+'切换'+"</option>"
+    				  var userList = data.data.recordList;
+                   	  for (var i = 0; i < userList.length; i++) {
+    						var user = userList[i];
+    						html += "<option value='"+user.medicNo+"' enterpriseNo='"+user.enterpriseNo+"'>"+user.realName+"</option>";	
+    				  }
+    				  $("#changeTestName").empty().append(html);
+                  }else{
+                  	  //接口获取失败
+                  	  $("#medicName").html("未查询到施测者信息");
+                  }
+                }
+            });
+        	
+        	$("#changeTestName").on('change',function(){
+        		var medicNo = $(this).children('option:selected').val(); 
+        		var medicName = $(this).children('option:selected').html();
+        		//var enterpriseNo = $(this).children('option:selected').attr('enterpriseNo');
+        		if(medicNo!=''){
+        			$("#medicName").html(medicName);
+        	      	$("#m_test_name input[name='medicNo']").val(medicNo);
+        	      	$("#m_test_name input[name='medicName']").val(medicName);
+        	      	//$("#m_test_name input[name='enterpriseNo']").val(enterpriseNo);
+        		}
+        		
+        	})
+        }
     }
+    
+    
+  	
+
 	
     
 });

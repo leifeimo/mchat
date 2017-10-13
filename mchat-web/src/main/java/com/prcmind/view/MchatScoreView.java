@@ -533,11 +533,19 @@ public class MchatScoreView  implements Serializable{
 				String motherBirthday = mchatScoreView.getMotherYear()+"-"+mchatScoreView.getMotherMonth()+"-"+mchatScoreView.getMotherDay();
 				mchatScore.setMotherBirthday(DateUtil.StrToDate(motherBirthday, "yyyy-MM-dd"));
 			}
+			if(!StringUtils.isEmpty(mchatScoreView.getMotherBirthday())){
+				mchatScore.setMotherBirthday(DateUtil.StrToDate(mchatScoreView.getMotherBirthday(), "yyyy-MM-dd"));
+			}
 			if(!StringUtils.isEmpty(mchatScoreView.getFatherYear()) && !StringUtils.isEmpty(mchatScoreView.getFatherMonth()) && !StringUtils.isEmpty(mchatScoreView.getFatherDay())){
 				String fatherBirthday = mchatScoreView.getFatherYear()+"-"+mchatScoreView.getFatherMonth()+"-"+mchatScoreView.getFatherDay();
 				mchatScore.setFatherBirthday(DateUtil.StrToDate(fatherBirthday, "yyyy-MM-dd"));
 			}
-			
+			if(!StringUtils.isEmpty(mchatScoreView.getFatherBirthday())){
+				mchatScore.setFatherBirthday(DateUtil.StrToDate(mchatScoreView.getFatherBirthday(), "yyyy-MM-dd"));
+			}
+			if(!StringUtils.isEmpty(mchatScoreView.getAbnormalities())){
+				mchatScore.setAbnormalities(mchatScoreView.getAbnormalities());
+			}
 			mchatScore.setFatherCareer(mchatScoreView.getFatherCareer());
 			mchatScore.setFatherCareerCategory(mchatScoreView.getFatherCareerCategory());
 			mchatScore.setFatherCultureDegree(mchatScoreView.getFatherCultureDegree());

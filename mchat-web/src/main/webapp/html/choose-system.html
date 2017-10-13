@@ -251,17 +251,19 @@ $(function(){
 	  $(".p"+s).addClass("p_current");	  
   });
   $("#logout").on('click',function(e){
-      util.client({
+	  layer.confirm('是否确定退出系统？',{btn:['确定','取消']},
+	  function(){
+        util.client({
         url: util.requestURL+'/web/v1/medic/token/logout',
         type: 'POST',
         success: function(data){
           if(data.code == 1){
             layer.msg('退出登录成功！');
             setTimeout(function(){window.location.href = 'login.html';},1000)
-            
           }
-        }
-      })
+          }
+      });
+	  })
     });
 });
 </script>

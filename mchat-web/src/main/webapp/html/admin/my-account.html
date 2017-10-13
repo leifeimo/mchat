@@ -220,7 +220,7 @@ $(function(){
 
                    <div class="s_page m_top_30" style="height:60px;">
                          <div class="s_page_num">
-                           <span><a href="#"><上一页</a></span>
+                           <span><a href="#">上一页</a></span>
                            <span><a href="#">1</a></span>
                            <span class="s_page_current">2</span>
                            <span><a href="#">3</a></span>
@@ -478,6 +478,18 @@ $(function(){
             var oldPwd = $("#oldPwd").val();
             var newPwd = $("#newPwd").val();
             var rePwd = $("#rePwd").val();
+            if(oldPwd == ''){
+              	 layer.msg('请输入旧密码！');
+              	 return false;
+            }
+            if(newPwd == ''){
+	           	 layer.msg('请输入新密码！');
+	           	 return false;
+            }
+            if(rePwd == ''){
+	          	 layer.msg('请输入确认密码！');
+	          	 return false;
+            }
             if(newPwd != rePwd){
               layer.msg('两次输入密码不一致，请重新输入！');
             }else{
@@ -492,6 +504,7 @@ $(function(){
                   if(resp.code == 1){
                     layer.msg('密码修改成功！');
                     layer.close(index);
+                    window.location.href="../login.html"
                   }else{
                     layer.msg(resp.msg);
                   }

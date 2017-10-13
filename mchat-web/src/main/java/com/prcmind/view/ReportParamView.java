@@ -79,6 +79,7 @@ public class ReportParamView implements Serializable {
 
 	private String birthsResult;// 出生情况（数字转中文）
 
+	private String abnormalities;
 	private String testeeNameHide;
 
 	private boolean testeeNameShow;
@@ -186,6 +187,33 @@ public class ReportParamView implements Serializable {
 	private String remarksHide;
 
 	private boolean remarksShow;
+	
+	private String abnormalitiesHide;
+	private boolean abnormalitiesShow;
+
+	public String getAbnormalities() {
+		return abnormalities;
+	}
+
+	public void setAbnormalities(String abnormalities) {
+		this.abnormalities = abnormalities;
+	}
+
+	public String getAbnormalitiesHide() {
+		return abnormalitiesHide;
+	}
+
+	public void setAbnormalitiesHide(String abnormalitiesHide) {
+		this.abnormalitiesHide = abnormalitiesHide;
+	}
+
+	public boolean isAbnormalitiesShow() {
+		return abnormalitiesShow;
+	}
+
+	public void setAbnormalitiesShow(boolean abnormalitiesShow) {
+		this.abnormalitiesShow = abnormalitiesShow;
+	}
 
 	public String getMedicNo() {
 		return medicNo;
@@ -906,10 +934,10 @@ public class ReportParamView implements Serializable {
 				} 
 				else {
 					String name = fieldName.replace("Hide", "").trim();
-					if (map.size() > 1) {
-						if (!map.containsKey(name)) {
-							isShow = false;
-						}
+					if (map.size() > 3 ) {
+							if (!map.containsKey(name)) {
+								isShow = false;
+							}
 					}
 				}
 				String showFieldName = fieldName.substring(0, prefixIndex) + "Show";
@@ -982,4 +1010,47 @@ public class ReportParamView implements Serializable {
 		}
 		return birth;
 	}
+
+	@Override
+	public String toString() {
+		return "ReportParamView [enterpriseNo=" + enterpriseNo + ", scaleNo=" + scaleNo + ", medicNo=" + medicNo
+				+ ", medicName=" + medicName + ", testeeName=" + testeeName + ", cardType=" + cardType + ", cardNo="
+				+ cardNo + ", sex=" + sex + ", birthDay=" + birthDay + ", testDay=" + testDay + ", gestationalWeeks="
+				+ gestationalWeeks + ", gestationalDays=" + gestationalDays + ", births=" + births + ", consignorName="
+				+ consignorName + ", consignorType=" + consignorType + ", weight=" + weight + ", address=" + address
+				+ ", zip=" + zip + ", email=" + email + ", tel=" + tel + ", remarks=" + remarks + ", patronnInfo="
+				+ patronnInfo + ", motherCultureDegree=" + motherCultureDegree + ", motherCareerCategory="
+				+ motherCareerCategory + ", motherCareer=" + motherCareer + ", fatherCultureDegree="
+				+ fatherCultureDegree + ", fatherCareerCategory=" + fatherCareerCategory + ", fatherCareer="
+				+ fatherCareer + ", caregiversCultureDegree=" + caregiversCultureDegree + ", motherBirthday="
+				+ motherBirthday + ", fatherBirthday=" + fatherBirthday + ", maritalStatus=" + maritalStatus
+				+ ", birthsResult=" + birthsResult + ", abnormalities=" + abnormalities + ", testeeNameHide="
+				+ testeeNameHide + ", testeeNameShow=" + testeeNameShow + ", cardTypeHide=" + cardTypeHide
+				+ ", cardTypeShow=" + cardTypeShow + ", cardNoHide=" + cardNoHide + ", cardNoShow=" + cardNoShow
+				+ ", sexHide=" + sexHide + ", sexShow=" + sexShow + ", birthDayHide=" + birthDayHide + ", birthDayShow="
+				+ birthDayShow + ", testDayHide=" + testDayHide + ", testDayShow=" + testDayShow
+				+ ", gestationalWeeksDaysHide=" + gestationalWeeksDaysHide + ", gestationalWeeksDaysShow="
+				+ gestationalWeeksDaysShow + ", birthsHide=" + birthsHide + ", birthsShow=" + birthsShow
+				+ ", consignorNameHide=" + consignorNameHide + ", consignorNameShow=" + consignorNameShow
+				+ ", consignorTypeHide=" + consignorTypeHide + ", consignorTypeShow=" + consignorTypeShow
+				+ ", weightHide=" + weightHide + ", weightShow=" + weightShow + ", addressHide=" + addressHide
+				+ ", addressShow=" + addressShow + ", zipHide=" + zipHide + ", zipShow=" + zipShow + ", emailHide="
+				+ emailHide + ", emailShow=" + emailShow + ", telHide=" + telHide + ", telShow=" + telShow
+				+ ", patronnInfoHide=" + patronnInfoHide + ", patronnInfoShow=" + patronnInfoShow
+				+ ", motherCultureDegreeHide=" + motherCultureDegreeHide + ", motherCultureDegreeShow="
+				+ motherCultureDegreeShow + ", motherCareerCategoryHide=" + motherCareerCategoryHide
+				+ ", motherCareerCategoryShow=" + motherCareerCategoryShow + ", motherCareerHide=" + motherCareerHide
+				+ ", motherCareerShow=" + motherCareerShow + ", fatherCultureDegreeHide=" + fatherCultureDegreeHide
+				+ ", fatherCultureDegreeShow=" + fatherCultureDegreeShow + ", fatherCareerCategoryHide="
+				+ fatherCareerCategoryHide + ", fatherCareerCategoryShow=" + fatherCareerCategoryShow
+				+ ", fatherCareerHide=" + fatherCareerHide + ", fatherCareerShow=" + fatherCareerShow
+				+ ", caregiversCultureDegreeHide=" + caregiversCultureDegreeHide + ", caregiversCultureDegreeShow="
+				+ caregiversCultureDegreeShow + ", maritalStatusHide=" + maritalStatusHide + ", maritalStatusShow="
+				+ maritalStatusShow + ", motherBirthdayHide=" + motherBirthdayHide + ", motherBirthdayShow="
+				+ motherBirthdayShow + ", fatherBirthdayHide=" + fatherBirthdayHide + ", fatherBirthdayShow="
+				+ fatherBirthdayShow + ", remarksHide=" + remarksHide + ", remarksShow=" + remarksShow
+				+ ", abnormalitiesHide=" + abnormalitiesHide + ", abnormalitiesShow=" + abnormalitiesShow + "]";
+	}
+	
+	
 }

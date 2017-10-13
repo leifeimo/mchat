@@ -130,6 +130,7 @@ ul{
 
 
         <div class="r_content">
+        <form method="post" id="report_search">
             <div class="r_search">
                
                <div class="r_search_l">
@@ -150,13 +151,13 @@ ul{
                    </div> -->
                </div>
                <div class="r_search_r">
-               <input id="search" type="button" class="r_search_r_btn" value="搜索" />
+               <input type="submit" class="r_search_r_btn" value="搜索" />
                <input type="reset" id="reset" class="r_search_r_btn2" value="清空" />
                </div>
                
                
             </div>
-            
+         </form>   
             <div class="r_article">     
                    <div class="search_list_content">
                      <div class="search_list_th">
@@ -203,7 +204,6 @@ ul{
                      </div>
             </div>
         </div>
-    </div>
 
 
 <script id="table" type="text/html" >
@@ -438,7 +438,7 @@ ul{
   $(document).ready(function(){
       var obj = {};
       var respData = {};
-      $("#search").on('click',function(){
+      $("#report_search").on('submit',function(e){
         var name = $("#name").val();
         var cardNo = $("#cardNo").val();
         if(name == ''){

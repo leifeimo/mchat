@@ -31,6 +31,7 @@ public class MobileController {
 		}
 		report.checkShow();
 		report.getBirthsSituation();
+		System.out.println(report);
 		model.addAttribute("report", report);
 		return "mchat-mobile/guardian";
 	}
